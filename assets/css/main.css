@@ -1,0 +1,184 @@
+@import "flowbite";
+
+.tornasol-button {
+  position: relative;
+  padding: 0.75rem 1.5rem;
+  background-color: #1f2937;
+  /* fondo del botón */
+  color: white;
+  font-weight: bold;
+  border: 2px solid transparent;
+  border-radius: 8px;
+  z-index: 0;
+  overflow: hidden;
+  transition: color 0.3s, background-color 0.3s;
+}
+
+.tornasol-button::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  padding: 2px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #3d4ccd, #6f4aa1, #ef442f, #fac000);
+  background-size: 400% 400%;
+  animation: none;
+  z-index: -1;
+  transition: opacity 0.3s;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  -webkit-mask-composite: destination-out;
+  opacity: 0;
+}
+
+.tornasol-button:hover::before {
+  animation: shimmer 10s ease infinite;
+  opacity: 1;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.tornasol-text {
+  background: linear-gradient(135deg,
+      #3D4CCD,
+      #6F4AA1,
+      #EF442F,
+      #FAC000);
+  background-size: 100%;
+  line-height: 60px;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.tornasol-text-title {
+  background: linear-gradient(135deg,
+      #3D4CCD,
+      #6F4AA1,
+      #EF442F,
+      #FAC000);
+  background-size: 100%;
+  line-height: 80px;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.tornasol-bg {
+  background: linear-gradient(135deg,
+      #3D4CCD,
+      #6F4AA1,
+      #EF442F,
+      #FAC000);
+  background-size: 100%;
+}
+
+
+.tornasol-input {
+  position: relative;
+  font-weight: bold;
+  border: 2px solid transparent;
+  border-radius: 8px;
+  z-index: 0;
+  overflow: hidden;
+  transition: color 0.3s, background-color 0.3s;
+}
+
+.tornasol-input::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  padding: 2px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #3d4ccd, #6f4aa1, #ef442f, #fac000);
+  background-size: 400% 400%;
+  animation: none;
+  z-index: -1;
+  transition: opacity 0.3s;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  -webkit-mask-composite: destination-out;
+  opacity: 0;
+}
+
+.tornasol-input:hover::before {
+  animation: shimmer 10s ease infinite;
+  opacity: 1;
+}
+
+.tornasol-svg {
+  background: linear-gradient(135deg, #3D4CCD, #6F4AA1, #EF442F, #FAC000);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  mask-image: linear-gradient(135deg, #3D4CCD, #6F4AA1, #EF442F, #FAC000);
+  -webkit-mask-image: linear-gradient(135deg, #3D4CCD, #6F4AA1, #EF442F, #FAC000);
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@media screen and (max-width: 856px) {
+  .tornasol-text-title {
+    line-height: 50px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .tornasol-text-title {
+    line-height: 46px;
+    margin-bottom: 12px;
+  }
+
+  .tornasol-text {
+    line-height: 24px;
+  }
+}
+
+*::-webkit-scrollbar {
+    -webkit-appearance: none;
+}
+
+*::-webkit-scrollbar:vertical {
+    width:10px;
+}
+
+*::-webkit-scrollbar-button:increment,.contenedor::-webkit-scrollbar-button {
+    display: none;
+} 
+
+*::-webkit-scrollbar:horizontal {
+    height: 5px;
+}
+
+*::-webkit-scrollbar-thumb {
+    background-color: #0004ff4b;
+    border-radius: 20px;
+    border: 0px solid #f1f2f3;
+  
+}
+
+*::-webkit-scrollbar-track {
+    border-radius: 10px;  
+}
