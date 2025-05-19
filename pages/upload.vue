@@ -28,7 +28,7 @@ async function handleImage(event) {
     form.append('image', file)
 
     try {
-      const response = await fetch('http://localhost:5001/remove', {
+      const response = await fetch('http://localhost:5000/remove', {
         method: 'POST',
         body: form,
       })
