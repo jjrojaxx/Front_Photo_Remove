@@ -9,7 +9,6 @@ const selectedIndex = ref(null)  // Índice de la imagen seleccionada
 const fileInput = ref(null)
 const isDragging = ref(false)
 const isLoading = ref(false)
-
 const siteName = 'PhotoRemoves'     // Cambia aquí por el nombre real de tu sitio
 
 function openFileDialog() {
@@ -116,10 +115,26 @@ async function downloadAllAsZip() {
   document.body.removeChild(link)
 }
 
+function removeImage(index) {
+  if (selectedIndex.value === index) {
+    selected.value = null
+    selectedIndex.value = null
+  }
+
+  previews.value.splice(index, 1)
+  originalNames.value.splice(index, 1)
+
+  // Si había más imágenes, selecciona otra automáticamente
+  if (previews.value.length > 0) {
+    selected.value = previews.value[0]
+    selectedIndex.value = 0
+  }
+}
+
 </script>
 
 <template>
-  <section class="bg-stone-950 py-12 md:px-50 px-6 relative" @dragover.prevent="isDragging = true"
+  <section class="bg-stone-950 py-12 md:px-50 px-4 relative" @dragover.prevent="isDragging = true"
     @dragleave.prevent="isDragging = false" @drop="handleDrop"
     :class="{ 'ring-4 ring-blue-500 ring-opacity-50': isDragging }">
     <div v-if="isDragging"
@@ -128,12 +143,12 @@ async function downloadAllAsZip() {
     </div>
 
     <div class="max-w-screen-md mx-auto rounded-lg">
-      <h1 class="tornasol-text-title text-center font-extrabold text-4xl md:text-5xl mb-6">
+      <h1 class="tornasol-text-title text-center font-extrabold text-3xl md:text-5xl mb-6">
         Upload an image to remove <br />the background
       </h1>
 
-      <div class="flex">
-        <div v-if="selected" class="mt-8 w-1/2 flex items-center justify-center h-80">
+      <div class="flex flex-col sm:flex-row">
+        <div v-if="selected" class="mt-8 w-full sm:w-1/2 flex items-center justify-center h-80">
           <img :src="selected" alt="Resultado sin fondo"
             class="inline-block w-full h-full object-contain rounded-lg shadow-lg border-2 border-gray-500" />
         </div>
@@ -146,9 +161,8 @@ async function downloadAllAsZip() {
           <span class="text-white">o arrastra tu archivo</span>
         </div>
 
-        <div v-if="previews.length" class="w-1/2 flex flex-col justify-center ml-3">
-          <div
-            class="flex cursor-pointer items-center rounded-lg p-3 hover:transition-all hover:bg-gray-900 hover:ml-2">
+        <div v-if="previews.length" class="w-full sm:w-1/2 flex flex-col justify-center sm:ml-3">
+          <div class="flex cursor-pointer items-center rounded-lg py-3 sm:p-3 hover:transition-all hover:bg-gray-900 hover:ml-2">
             <span class="text-blue-700 py-3 px-3 bg-gray-950 border-1 rounded-full text-3xl font-bold">
               <svg class="w-6 h-6 text-blue-700 text-2xl font-bold" aria-hidden="true"
                 xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -158,8 +172,7 @@ async function downloadAllAsZip() {
             </span>
             <p class="font-mono font-medium ml-2 text-lg text-white">Background</p>
           </div>
-          <div
-            class="flex cursor-pointer items-center rounded-lg p-3 hover:transition-all hover:bg-gray-900 hover:ml-2">
+          <div class="flex cursor-pointer items-center rounded-lg sm:p-3 hover:transition-all hover:bg-gray-900 hover:ml-2">
             <span class="text-blue-700 py-3 px-3 bg-gray-950 border-1 rounded-full text-3xl font-bold">
 
               <svg class="w-6 h-6 text-blue-700 text-2xl font-bold" aria-hidden="true"
@@ -197,6 +210,7 @@ async function downloadAllAsZip() {
           </path>
         </svg>
       </div>
+      <!-- AQUI EL  IF -->
       <div v-if="previews.length"
         class="border-white border-2 mt-4 p-1 rounded-lg border-dashed flex gap-1 bg-stone-900 w-full max-w-screen-md overflow-x-auto whitespace-nowrap">
         <div class="flex gap-1 flex-nowrap">
@@ -204,10 +218,24 @@ async function downloadAllAsZip() {
             class="cursor-pointer h-20 w-24 rounded-lg border-dashed flex justify-center items-center bg-gray-800 hover:bg-gray-700 hover:transition-all active:bg-gray-900 shrink-0">
             <span class="text-4xl text-gray-400">+</span>
           </div>
-          <img v-for="(img, index) in previews" :key="index" :src="img" @click="selectImage(img, index)" :class="[
-            'cursor-pointer h-20 w-24 rounded-lg border-2 bg-gray-950 transition-all shrink-0',
-            selected === img ? 'border-blue-500' : 'border-gray-500'
-          ]" alt="Imagen sin fondo" />
+          <div class="flex gap-1">
+            <div class="relative group h-20 w-24" v-for="(img, index) in previews" :key="index">
+              <button class="absolute right-1 top-1" @click.stop="removeImage(index)">
+                <svg
+                  class="w-6 h-6 text-gray-800 dark:text-white cursor-pointer hover:bg-red-600 bg-[#ff000086] opacity-0 group-hover:transition group-hover:opacity-100 hover:transition-all rounded-full"
+                  aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
+                  viewBox="0 0 24 24">
+                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="m15 9-6 6m0-6 6 6m6-3a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                </svg>
+              </button>
+              <img :src="img" @click="selectImage(img, index)" :class="[
+                'cursor-pointer h-20 w-24 rounded-lg border-2 bg-gray-950 transition-all shrink-0',
+                selected === img ? 'border-blue-500' : 'border-gray-500'
+              ]" alt="Imagen sin fondo" />
+
+            </div>
+          </div>
         </div>
       </div>
     </div>
