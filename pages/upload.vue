@@ -10,11 +10,15 @@ const fileInput = ref(null)
 const isDragging = ref(false)
 const isLoading = ref(false)
 const siteName = 'PhotoRemoves'     // Cambia aquí por el nombre real de tu sitio
+const colorInput = ref(null)
 
 function openFileDialog() {
   if (fileInput.value) {
     fileInput.value.click()
   }
+}
+function openColorDialog() {
+    colorInput.value.click()
 }
 
 async function handleImage(event) {
@@ -160,9 +164,11 @@ function removeImage(index) {
           </button>
           <span class="text-white">o arrastra tu archivo</span>
         </div>
-
-        <div v-if="previews.length" class="w-full sm:w-1/2 flex flex-col justify-center sm:ml-3">
-          <div class="flex cursor-pointer items-center rounded-lg py-3 sm:p-3 hover:transition-all hover:bg-gray-900 hover:ml-2">
+        <!-- El if va aqui -->
+        <div class="w-full sm:w-1/2 flex flex-col justify-center sm:ml-3">
+          <div
+            class="flex cursor-pointer items-center rounded-lg py-3 sm:p-3 hover:transition-all hover:bg-gray-900 hover:ml-2"
+            id="dropdownDefaultButton" data-dropdown-toggle="dropdown" type="button">
             <span class="text-blue-700 py-3 px-3 bg-gray-950 border-1 rounded-full text-3xl font-bold">
               <svg class="w-6 h-6 text-blue-700 text-2xl font-bold" aria-hidden="true"
                 xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -172,7 +178,75 @@ function removeImage(index) {
             </span>
             <p class="font-mono font-medium ml-2 text-lg text-white">Background</p>
           </div>
-          <div class="flex cursor-pointer items-center rounded-lg sm:p-3 hover:transition-all hover:bg-gray-900 hover:ml-2">
+          <div id="dropdown" class="z-10 w-100 hidden bg-white divide-y divide-gray-100 rounded-lg shadow-sm  dark:bg-gray-900">
+            <div class="mb-4 border-b border-gray-200 dark:border-gray-700 w-full">
+              <ul class="flex flex-wrap -mb-px text-sm font-medium text-center" id="default-tab"
+                data-tabs-toggle="#default-tab-content" role="tablist">
+                <li class="me-2" role="presentation">
+                  <button class="inline-block p-4 border-b-2 rounded-t-lg" id="profile-tab" data-tabs-target="#profile"
+                    type="button" role="tab" aria-controls="profile" aria-selected="false">Color</button>
+                </li>
+                <li class="me-2" role="presentation">
+                  <button
+                    class="inline-block p-4 border-b-2 rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300"
+                    id="dashboard-tab" data-tabs-target="#dashboard" type="button" role="tab" aria-controls="dashboard"
+                    aria-selected="false">Fotos</button>
+                </li>
+              </ul>
+            </div>
+            <div id="default-tab-content" class="h-70 overflow-auto">
+              <div class="hidden p-4 rounded-lg" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                <div class="grid grid-cols-3 gap-2">
+                  <div @click="openColorDialog" data-tooltip-target="tooltip-default" class="relative h-20 rounded-md transition-all hover:scale-103 cursor-pointer rainbow-circle flex items-center justify-center">
+                    <svg class="w-6 h-6 text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24"
+                      height="24" fill="none" viewBox="0 0 24 24">
+                      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M5 12h14m-7 7V5" />
+                    </svg>
+                    <input type="color" ref="colorInput" class="opacity-0 absolute bottom-0">
+                  </div>
+                  
+                  <div id="tooltip-default" role="tooltip"
+                    class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-xs opacity-0 tooltip dark:bg-gray-700">
+                    Add color code 🖍️
+                    <div class="tooltip-arrow" data-popper-arrow></div>
+                  </div>
+                  <div class="bg-[#c0392b] h-20 rounded-md transition-all hover:scale-103 cursor-pointer"></div>
+                  <div class="bg-[#9b59b6] h-20 rounded-md transition-all hover:scale-103 cursor-pointer"></div>
+                  <div class="bg-[#2980b9] h-20 rounded-md transition-all hover:scale-103 cursor-pointer"></div>
+                  <div class="bg-[#1abc9c] h-20 rounded-md transition-all hover:scale-103 cursor-pointer"></div>
+                  <div class="bg-[#27ae60] h-20 rounded-md transition-all hover:scale-103 cursor-pointer"></div>
+                  <div class="bg-[#f1c40f] h-20 rounded-md transition-all hover:scale-103 cursor-pointer"></div>
+                  <div class="bg-[#e67e22] h-20 rounded-md transition-all hover:scale-103 cursor-pointer"></div>
+                  <div class="bg-[#ecf0f1] h-20 rounded-md transition-all hover:scale-103 cursor-pointer"></div>
+                  <div class="bg-[#95a5a6] h-20 rounded-md transition-all hover:scale-103 cursor-pointer"></div>
+                  <div class="bg-[#34495e] h-20 rounded-md transition-all hover:scale-103 cursor-pointer"></div>
+                </div>
+              </div>
+              <div class="hidden p-4 rounded-lg" id="dashboard" role="tabpanel" aria-labelledby="dashboard-tab">
+                <div class="grid grid-cols-3 gap-2">
+                  <img src="../public/img/bryan-goff-f7YQo-eYHdM-unsplash.jpg" alt=""
+                    class="h-20 rounded-md transition-all hover:scale-103 cursor-pointer">
+                  <img src="../public/img/benjamin-voros-phIFdC6lA4E-unsplash.jpg" alt=""
+                    class="h-20 rounded-md transition-all hover:scale-103 cursor-pointer">
+                  <img src="../public/img/kalen-emsley-Bkci_8qcdvQ-unsplash.jpg" alt=""
+                    class="h-20 rounded-md transition-all hover:scale-103 cursor-pointer">
+                  <img src="../public/img/luca-bravo-zAjdgNXsMeg-unsplash.jpg" alt=""
+                    class="h-20 rounded-md transition-all hover:scale-103 cursor-pointer">
+                  <img src="../public/img/mohammad-alizade-4wzRuAb-KWs-unsplash.jpg" alt=""
+                    class="h-20 rounded-md transition-all hover:scale-103 cursor-pointer">
+                  <img src="../public/img/ken-cheung-KonWFWUaAuk-unsplash.jpg" alt=""
+                    class="h-20 rounded-md transition-all hover:scale-103 cursor-pointer">
+                  <img src="../public/img/cristina-gottardi-CSpjU6hYo_0-unsplash.jpg" alt=""
+                    class="h-20 rounded-md transition-all hover:scale-103 cursor-pointer">
+                  <img src="../public/img/daniela-cuevas-t7YycgAoVSw-unsplash.jpg" alt=""
+                    class="h-20 rounded-md transition-all hover:scale-103 cursor-pointer">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="flex cursor-pointer items-center rounded-lg sm:p-3 hover:transition-all hover:bg-gray-900 hover:ml-2">
             <span class="text-blue-700 py-3 px-3 bg-gray-950 border-1 rounded-full text-3xl font-bold">
 
               <svg class="w-6 h-6 text-blue-700 text-2xl font-bold" aria-hidden="true"
@@ -210,7 +284,6 @@ function removeImage(index) {
           </path>
         </svg>
       </div>
-      <!-- AQUI EL  IF -->
       <div v-if="previews.length"
         class="border-white border-2 mt-4 p-1 rounded-lg border-dashed flex gap-1 bg-stone-900 w-full max-w-screen-md overflow-x-auto whitespace-nowrap">
         <div class="flex gap-1 flex-nowrap">
@@ -241,3 +314,17 @@ function removeImage(index) {
     </div>
   </section>
 </template>
+ <style scoped>
+ .rainbow-circle {
+  background: conic-gradient(
+    red,
+    orange,
+    yellow,
+    lime,
+    cyan,
+    blue,
+    violet,
+    red
+  );
+}
+</style>
